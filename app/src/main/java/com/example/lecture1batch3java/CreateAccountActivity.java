@@ -37,7 +37,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     text_email.setError("Field is required");
                 } else if (text_password.getText().toString().equals("")) {
                     text_password.setError("Field is required");
-                } else if (!TextUtils.isEmpty(text_email.getText()) && !isEmailValid(text_email.getText())){
+                } else if (!TextUtils.isEmpty(text_email.getText()) && !Common.isEmailValid(text_email.getText())){
                     text_email.setError("Invalid Email");
                 } else if (!TextUtils.isEmpty(text_password.getText()) && text_password.getText().toString().length() < 6) {
                     text_password.setError("Password must be at least six characters long");
@@ -51,8 +51,5 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
 
-    private boolean isEmailValid(CharSequence email){
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
 
 }
