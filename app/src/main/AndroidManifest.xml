@@ -11,8 +11,8 @@
         android:theme="@style/Theme.Lecture1Batch3Java">
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".CreateAccountActivity" />
-        <activity android:name=".MainActivity2" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
