@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     public void moveToLoginActivity(View view) {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void moveToCreateAccountActivity(View view) {

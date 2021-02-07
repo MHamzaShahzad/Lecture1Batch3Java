@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,10 +19,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText text_login_email, text_password;
     Button btn_login;
 
+    UserPreferences userPreferences;
+
+    // SharedPreferences sharedPreferenceUserInfo;
+    // SharedPreferences.Editor editorUserInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // sharedPreferenceUserInfo = getSharedPreferences("user_info", MODE_PRIVATE); // Read
+        // editorUserInfo = sharedPreferenceUserInfo.edit();  // Edit (Write, Replace, Delete/Remove)
+
+        userPreferences = new UserPreferences(this);
 
         text_login_email = findViewById(R.id.text_login_email);
         text_password = findViewById(R.id.text_password);
@@ -41,7 +52,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             text_password.setError("Password should be atlest six characters long.");
         } else {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            Intent intent = new Intent(LoginActivity.this, TimelineActivity.class);
+
+            intent.putExtra("login_email", text_login_email.getText().toString());
+            intent.putExtra("isLoggedIn", true);
+
+            // editorUserInfo.putString("login_email", text_login_email.getText().toString());
+            // editorUserInfo.putBoolean("isLoggedIn", true);
+            // editorUserInfo.apply();
+
+            userPreferences.setEmail(text_login_email.getText().toString());
+            userPreferences.setIsLoggedIn(true);
+
+            startActivity(intent);
+            finish();
+
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Alert");
             builder.setMessage("Form validation Completed");
             builder.setIcon(R.drawable.ic_launcher_background);
@@ -60,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
             AlertDialog dialog =  builder.create();
-            dialog.show();
+            dialog.show();*/
         }
     }
 
