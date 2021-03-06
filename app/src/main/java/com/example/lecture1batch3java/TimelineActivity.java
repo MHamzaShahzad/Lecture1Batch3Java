@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 public class TimelineActivity extends AppCompatActivity {
 
@@ -33,6 +34,12 @@ public class TimelineActivity extends AppCompatActivity {
 
         Log.i("TAG", "onCreate: SHARED_PREFERENCES " + "Email: " + userPreferences.getEmail() + " isLoggedIn: " + userPreferences.getAlreadyLoggedIn());
 
+    }
+
+    public void logout(View view) {
+        userPreferences.clearAllUserPreferences();
+        startActivity(new Intent(TimelineActivity.this, LoginActivity.class));
+        finish();
     }
 }
 
