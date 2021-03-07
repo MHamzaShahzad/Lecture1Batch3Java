@@ -12,14 +12,10 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<AdapterViewHolder> {
 
-    private List<String> list;
     private List<UserModel> userlist;
 
-    public RecyclerViewAdapter(List<String> list, List<UserModel> userlist) {
-        this.list = list;
+    public RecyclerViewAdapter(List<UserModel> userlist) {
         this.userlist = userlist;
-
-        Log.i("TAG", "RecyclerViewAdapter: " + list.size());
     }
 
 
@@ -33,12 +29,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<AdapterViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
-        holder.textView.setText(list.get(position));
+        UserModel userModel = userlist.get(position);
+
+        holder.nameText.setText(userModel.getName());
+        holder.ageText.setText(userModel.getAge());
+        holder.emailText.setText(userModel.getEmail());
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return userlist.size();
     }
 
 }

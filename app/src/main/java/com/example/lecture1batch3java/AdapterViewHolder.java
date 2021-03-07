@@ -8,11 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterViewHolder extends RecyclerView.ViewHolder {
 
-    TextView textView;
+    TextView nameText, ageText, emailText;
 
     public AdapterViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        textView = itemView.findViewById(R.id.textView);
+        nameText = itemView.findViewById(R.id.nameText);
+        ageText = itemView.findViewById(R.id.ageText);
+        emailText = itemView.findViewById(R.id.emailText);
+
     }
+
 }
