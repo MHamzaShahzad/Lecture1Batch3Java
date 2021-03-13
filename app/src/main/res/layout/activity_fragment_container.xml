@@ -17,9 +17,8 @@
             android:id="@+id/fragmentA"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Fragment A"
             android:layout_weight="1"
-            />
+            android:text="Fragment A" />
 
         <Button
             android:id="@+id/fragmentB"

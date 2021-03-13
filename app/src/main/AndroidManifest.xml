@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lecture1batch3java">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,18 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lecture1Batch3Java">
         <activity android:name=".FragmentContainerActivity">
+
+        </activity>
+        <activity android:name=".RecyclerActivity" />
+        <activity android:name=".TimelineActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".CreateAccountActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecyclerActivity" />
-        <activity android:name=".TimelineActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".CreateAccountActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SplashActivity"></activity>
+        <activity android:name=".SplashActivity" />
     </application>
 
 </manifest>
