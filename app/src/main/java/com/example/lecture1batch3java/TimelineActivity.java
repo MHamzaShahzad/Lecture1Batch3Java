@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class TimelineActivity extends AppCompatActivity {
 
     // SharedPreferences sharedPreferenceAppInfo = getSharedPreferences("app_info", MODE_PRIVATE); // Read
@@ -16,7 +18,7 @@ public class TimelineActivity extends AppCompatActivity {
     // SharedPreferences sharedPreferenceUserInfo;
     // SharedPreferences.Editor editorUserInfo;
 
-    UserPreferences userPreferences;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +28,18 @@ public class TimelineActivity extends AppCompatActivity {
         // sharedPreferenceUserInfo = getSharedPreferences("user_info", MODE_PRIVATE); // Read
         // editorUserInfo = sharedPreferenceUserInfo.edit();  // Edit (Write, Replace, Delete/Remove)
 
-        userPreferences = new UserPreferences(this);
+
+        mAuth = FirebaseAuth.getInstance();
 
         Intent receivedIntent = getIntent();
         Log.i("TAG", "onCreate: " + "Email: " + receivedIntent.getStringExtra("login_email") + " isLoggedIn: " + receivedIntent.getBooleanExtra("isLoggedIn", true));
         // Log.i("TAG", "onCreate: SHARED_PREFERENCES " + "Email: " + sharedPreferenceUserInfo.getString("login_email", "") + " isLoggedIn: " + sharedPreferenceUserInfo.getBoolean("isLoggedIn", false));
 
-        Log.i("TAG", "onCreate: SHARED_PREFERENCES " + "Email: " + userPreferences.getEmail() + " isLoggedIn: " + userPreferences.getAlreadyLoggedIn());
 
     }
 
     public void logout(View view) {
-        userPreferences.clearAllUserPreferences();
+        mAuth.signOut();
         startActivity(new Intent(TimelineActivity.this, LoginActivity.class));
         finish();
     }

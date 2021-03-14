@@ -1,38 +1,36 @@
 package com.example.lecture1batch3java;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText text_login_email, text_password;
     Button btn_login;
 
-    UserPreferences userPreferences;
-
-    // SharedPreferences sharedPreferenceUserInfo;
-    // SharedPreferences.Editor editorUserInfo;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // sharedPreferenceUserInfo = getSharedPreferences("user_info", MODE_PRIVATE); // Read
-        // editorUserInfo = sharedPreferenceUserInfo.edit();  // Edit (Write, Replace, Delete/Remove)
-
-        userPreferences = new UserPreferences(this);
+        mAuth = FirebaseAuth.getInstance();
 
         text_login_email = findViewById(R.id.text_login_email);
         text_password = findViewById(R.id.text_password);
@@ -49,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (!TextUtils.isEmpty(text_login_email.getText()) && !Common.isEmailValid(text_login_email.getText())) {
             text_login_email.setError("Invalid Email");
         } else if (!TextUtils.isEmpty(text_password.getText()) && text_password.getText().length() < 0) {
-            text_password.setError("Password should be atlest six characters long.");
+            text_password.setError("Password should be at least six characters long.");
         } else {
 
             Intent intent = new Intent(LoginActivity.this, TimelineActivity.class);
@@ -57,15 +55,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             intent.putExtra("login_email", text_login_email.getText().toString());
             intent.putExtra("isLoggedIn", true);
 
-            // editorUserInfo.putString("login_email", text_login_email.getText().toString());
-            // editorUserInfo.putBoolean("isLoggedIn", true);
-            // editorUserInfo.apply();
+            mAuth.signInWithEmailAndPassword(text_login_email.getText().toString(), text_password.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("TAG", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
 
-            userPreferences.setEmail(text_login_email.getText().toString());
-            userPreferences.setIsLoggedIn(true);
+                                if (user != null) {
+                                    startActivity(intent);
+                                    finish();
+                                }
 
-            startActivity(intent);
-            finish();
+
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("TAG", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            // ...
+                        }
+                    });
+
+
 
             /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Alert");

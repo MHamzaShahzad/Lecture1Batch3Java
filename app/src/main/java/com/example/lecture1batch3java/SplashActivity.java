@@ -7,34 +7,29 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SplashActivity extends AppCompatActivity {
 
-    // SharedPreferences sharedPreferenceUserInfo;
-    // SharedPreferences.Editor editorUserInfo;
-
-    UserPreferences userPreferences;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // sharedPreferenceUserInfo = getSharedPreferences("user_info", MODE_PRIVATE); // Read
-        // editorUserInfo = sharedPreferenceUserInfo.edit();  // Edit (Write, Replace, Delete/Remove)
-
-        userPreferences = new UserPreferences(this);
+        mAuth = FirebaseAuth.getInstance();
 
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 // Activity to Activity
-                // boolean isAlreadyLoggedIn = sharedPreferenceUserInfo.getBoolean("isLoggedIn", false);
-
-                boolean isAlreadyLoggedIn = userPreferences.getAlreadyLoggedIn();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
 
                 Intent intent;
-                if (isAlreadyLoggedIn) {
+                if (currentUser != null) {
                     intent = new Intent(SplashActivity.this, TimelineActivity.class);
                 } else {
                     intent = new Intent(SplashActivity.this, MainActivity.class);
