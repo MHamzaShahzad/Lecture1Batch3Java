@@ -7,6 +7,21 @@
     android:padding="20dp"
     tools:context=".TimelineActivity">
 
+    <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userImage"
+        android:textAlignment="center"
+        android:text="User Name"
+        android:gravity="center_horizontal" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

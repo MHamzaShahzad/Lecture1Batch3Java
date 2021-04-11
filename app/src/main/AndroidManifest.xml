@@ -3,6 +3,7 @@
     package="com.example.lecture1batch3java">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,20 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lecture1Batch3Java">
         <activity android:name=".PhoneAuthActivity">
+        </activity>
+        <activity android:name=".FragmentContainerActivity" />
+        <activity android:name=".RecyclerActivity" />
+        <activity android:name=".TimelineActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".CreateAccountActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".FragmentContainerActivity"></activity>
-        <activity android:name=".RecyclerActivity" />
-        <activity android:name=".TimelineActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".CreateAccountActivity"></activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SplashActivity">
-
         </activity>
     </application>
 
