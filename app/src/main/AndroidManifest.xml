@@ -12,8 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Lecture1Batch3Java">
-        <activity android:name=".PhoneAuthActivity">
-        </activity>
+        <activity android:name=".UsersListActivity"></activity>
+        <activity android:name=".PhoneAuthActivity"></activity>
         <activity android:name=".FragmentContainerActivity" />
         <activity android:name=".RecyclerActivity" />
         <activity android:name=".TimelineActivity" />

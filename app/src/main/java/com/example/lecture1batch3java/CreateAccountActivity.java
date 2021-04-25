@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.lecture1batch3java.models.User;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +26,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,9 +43,11 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Button btn_sign_up;
     private ImageView userImage;
     private FirebaseAuth mAuth;
-    private FirebaseStorage firebaseStorage;
     private  Uri imageUri;
+    private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     // Create a Cloud Storage reference from the app
 
@@ -81,37 +86,13 @@ public class CreateAccountActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageRef = firebaseStorage.getReference();
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
 
         View.OnClickListener btnSignUpListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("TAG", "onClick: btnSignUpListener");
-
-                /* UploadTask uploadTask = storageRef.child(imageUri.getLastPathSegment()).putFile(imageUri);
-                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
-
-                        // Continue with the task to get the download URL
-                        return storageRef.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            imageUri = task.getResult();
-                            Log.i("TAG", "onComplete: " + imageUri);
-
-                        } else {
-                            // Handle failures
-                            // ...
-                        }
-                    }
-                }); */
 
                 if (text_name.getText().toString().equals("")){
                    text_name.setError("Field is required");
@@ -175,40 +156,16 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                     user.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
+
+                                                            User userObj = new User(user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
+                                                            databaseReference.child(user.getUid()).setValue(userObj);
                                                             startActivity(new Intent(CreateAccountActivity.this, TimelineActivity.class));
                                                             finish();
                                                         }
                                                     });
                                                 }
-                                            });/*.addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Uri> task) {
-                                                    if (task.isSuccessful()) {
-                                                        imageUri = task.getResult();
-
-                                                        UserProfileChangeRequest.Builder userBuilder = new UserProfileChangeRequest.Builder();
-                                                        userBuilder.setDisplayName(text_name.getText().toString());
-                                                        userBuilder.setPhotoUri(imageUri);
-
-                                                        UserProfileChangeRequest userProfileChangeRequest = userBuilder.build();
-
-                                                        user.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                startActivity(new Intent(CreateAccountActivity.this, TimelineActivity.class));
-                                                                finish();
-                                                            }
-                                                        });
-
-                                                    } else {
-                                                        // Handle failures
-                                                        // ...
-                                                    }
-                                                }
-                                            });*/
-
+                                            });
                                         }
-
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w("TAG", "createUserWithEmail:failure", task.getException());
@@ -226,6 +183,12 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
 
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {

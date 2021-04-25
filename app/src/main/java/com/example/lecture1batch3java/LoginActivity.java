@@ -121,5 +121,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    public void moveToCreateAccountActivity(View view) {
+        startActivity(new Intent(this, CreateAccountActivity.class));
+        finish();
+    }
 
+    public void moveToUserListActivity(View view) {
+        startActivity(new Intent(this, UsersListActivity.class));
+
+    }
 }
